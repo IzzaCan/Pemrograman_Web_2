@@ -14,13 +14,13 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
+            Categories
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/category/pria">Pria</a></li>
-            <li><a class="dropdown-item" href="/category/wanita">Wanita</a></li>
+            <li><a class="dropdown-item" href="#">Pria</a></li>
+            <li><a class="dropdown-item" href="#">Wanita</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/category/anak-anak">Anak-anak</a></li>
+            <li><a class="dropdown-item" href="#">Anak-anak</a></li>
           </ul>
         </li>
         <li class="nav-item">
