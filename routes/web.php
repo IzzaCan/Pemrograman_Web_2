@@ -1,15 +1,37 @@
 <?php
 
+use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 
-Route::get('/', [HomepageController::class, 'index']);
-Route::get('/products', [HomepageController::class, 'products']);
-Route::get('/product/{slug}', [HomepageController::class, 'product']);
-Route::get('/categories', [HomepageController::class, 'categories']);
-Route::get('/category/{slug}', [HomepageController::class, 'category']);
-Route::get('/cart', [HomepageController::class, 'cart']);
-Route::get('/checkout', [HomepageController::class, 'checkout']);
+
+Route::get('/', [HomepageController::class, 'index'])->name('home');
+Route::get('products', [HomepageController::class, 'products'])->name('products.index');
+Route::get('product/{slug}', [HomepageController::class, 'product'])->name('product.show');
+Route::get('categories', [HomepageController::class, 'categories'])->name('categories.index');
+Route::get('category/{slug}', [HomepageController::class, 'category'])->name('category.show');
+Route::get('cart', [HomepageController::class, 'cart'])->name('cart');
+Route::get('checkout', [HomepageController::class, 'checkout'])->name('checkout');
+
+
+Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('categories', ProductCategoryController::class);
+    Route::resource('products', ProductController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::redirect('settings', 'settings/profile');
+
+    Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
+    Volt::route('settings/password', 'settings.password')->name('settings.password');
+    Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+});
+
+require __DIR__.'/auth.php';
 
 
 
