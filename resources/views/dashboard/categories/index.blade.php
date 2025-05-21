@@ -14,31 +14,44 @@
         @endif
 
         <div class="bg-gray-800 rounded-lg shadow overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-700 table-auto text-gray-300">
+            <table class="min-w-full divide-y divide-gray-700">
                 <thead class="bg-gray-900">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">No.</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider w-12">No.</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Image</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Name</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Slug</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Description</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-700">
                     @foreach ($categories as $key => $category)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{{ $key + 1 }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if($category->image)
+                                    <img src="{{ asset('storage/' . $category->image) }}" 
+                                        alt="{{ $category->name }}" 
+                                        class="w-10 h-10 object-cover rounded">
+                                @else
+                                    <span class="text-gray-500 italic">No Image</span>
+                                @endif
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">{{ $category->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">{{ $category->slug }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{{ Str::limit($category->description, 50) }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
-                                <a href="{{ route('categories.edit', $category->id) }}" class="text-yellow-500 hover:text-yellow-400">
-                                    Update
+                            <td class="px-6 py-4 text-sm text-gray-400 max-w-xs">{{ Str::limit($category->description, 50) }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                <a href="{{ route('categories.edit', $category->id) }}" 
+                                   class="text-yellow-500 hover:text-yellow-400 px-2">
+                                    Edit
                                 </a>
                                 <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-400" onclick="return confirm('Are you sure you want to delete this category?')">
+                                    <button type="submit" 
+                                            class="text-red-500 hover:text-red-400 px-2"
+                                            onclick="return confirm('Delete this category?')">
                                         Delete
                                     </button>
                                 </form>

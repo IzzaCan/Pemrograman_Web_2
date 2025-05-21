@@ -5,14 +5,14 @@
         <flux:separator variant="subtle" />
     </div>
 
-    <form method="POST" action="{{ route('categories.store') }}">
+    <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="space-y-4">
             <flux:input name="name" label="Nama Kategori" value="{{ old('name') }}" required />
             <flux:input name="slug" label="Slug (Opsional)" value="{{ old('slug') }}" />
+            <flux:input name="image" label="Gambar" type="file" accept="image/*" />
             <flux:input name="description" label="Deskripsi" value="{{ old('description') }}" />
-            <flux:input name="image" label="Gambar (URL)" value="{{ old('image') }}" />
         </div>
 
     <div class="mt-6 flex space-x-3">

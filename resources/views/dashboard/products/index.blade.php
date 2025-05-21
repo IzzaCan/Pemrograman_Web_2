@@ -32,11 +32,13 @@
                     <th class="px-4 py-3 text-left">No</th>
                     <th class="px-4 py-3 text-left">Gambar</th>
                     <th class="px-4 py-3 text-left">Nama</th>
+                    <th class="px-4 py-3 text-left">Slug</th>
                     <th class="px-4 py-3 text-left">Kategori</th>
                     <th class="px-4 py-3 text-left">Deskripsi</th>
                     <th class="px-4 py-3 text-left">Harga</th>
                     <th class="px-4 py-3 text-left">SKU</th>
                     <th class="px-4 py-3 text-left">Stok</th>
+                    <th class="px-4 py-3 text-left">Status</th>
                     <th class="px-4 py-3 text-left">Aksi</th>
                 </tr>
             </thead>
@@ -56,11 +58,13 @@
                             @endif
                         </td>
                         <td class="px-4 py-3">{{ $product->name }}</td>
+                        <td class="px-4 py-3">{{ $product->slug }}</td>
                         <td class="px-4 py-3">{{ $product->category->name ?? '-' }}</td>
                         <td class="px-4 py-3">{{ Str::limit($product->description, 50) }}</td>
                         <td class="px-4 py-3">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
                         <td class="px-4 py-3">{{ $product->sku }}</td>
                         <td class="px-4 py-3">{{ $product->stock }}</td>
+                        <td class="px-4 py-3">{{ $product->is_active ? 'Active' : 'Non Active' }}</td>
                         <td class="px-4 py-3">
                             <flux:button size="sm" color="warning" href="{{ route('products.edit', $product) }}">Edit</flux:button>
                             <form action="{{ route('products.destroy', $product) }}" method="POST" style="display:inline-block" onsubmit="return confirm('Yakin ingin menghapus?')">

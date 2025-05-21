@@ -29,12 +29,14 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'name'                 => 'required|string|max:255',
+            'slug'                 => 'nullable|string|max:255|unique:products,slug',
             'description'          => 'nullable|string',
             'price'                => 'required|numeric|min:0',
             'sku'                  => 'required|string|max:100|unique:products,sku',
             'stock'                => 'required|integer|min:0',
             'product_category_id'  => 'required|exists:product_categories,id',
             'image'                => 'nullable|image|max:2048',
+            'is_active'            => 'required|boolean',
         ]);
 
         // Upload gambar jika ada
@@ -45,6 +47,7 @@ class ProductController extends Controller
 
         // Tambahkan slug
         $validated['slug'] = Str::slug($validated['name']);
+
 
         // Simpan produk
         $product = Product::create($validated);
@@ -65,12 +68,14 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'name'                 => 'required|string|max:255',
+            'slug'                 => 'nullable|string|max:255|unique:products,slug,' . $product->id,
             'description'          => 'nullable|string',
             'price'                => 'required|numeric|min:0',
             'sku'                  => 'required|string|max:100|unique:products,sku,' . $product->id,
             'stock'                => 'required|integer|min:0',
             'product_category_id'  => 'required|exists:product_categories,id',
             'image'                => 'nullable|image|max:2048',
+            'is_active'            => 'required|boolean',
         ]);
 
         // Upload gambar baru dan hapus gambar lama
@@ -82,8 +87,9 @@ class ProductController extends Controller
             $validated['image_url'] = $imagePath;
         }
 
-        // Perbarui slug
-        $validated['slug'] = Str::slug($validated['name']);
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['name']);
+        }
 
         // Simpan perubahan
         $product->update($validated);
